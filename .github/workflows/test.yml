@@ -22,41 +22,33 @@ jobs:
         cd hw
         forge install
       id: test
-
-    ## Problem Template
-    # - name: Problem <id>
-    #   id: problem-<id>
-    #   uses: classroom-resources/autograding-command-grader@v1
-    #   with:
-    #     test-name: Problem <id>
-    #     command: cd hw && forge test --mt <foundry-test-name>
-    #     timeout: <time-limit>
-    #     max-score: <max-score>
-
     
-    ## Modify Problem 1 Configuration
     - name: Problem 1
       id: problem-1
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: Problem 1
-        command: cd hw && forge test --mt test_Increment
+        command: cd hw && forge test --mc BadRootTest --mt testExploit
         timeout: 10
-        max-score: 10
+        max-score: 30
 
-    ## Modify Problem 2 Configuration
     - name: Problem 2
       id: problem-2
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: Problem 2
-        command: cd hw && forge test --mt testFuzz_SetNumber
+        command: cd hw && forge test --mc simpleBridgeV1Test --mt testExploit
         timeout: 10
-        max-score: 10
-
-    ## Add More Problem Below
-    ## Problem 3 ...
-    ## Problem 4 ...
+        max-score: 35
+   
+    - name: Problem 3
+      id: problem-3
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Problem 3
+        command: cd hw && forge test --mc simpleBridgeV2Test --mt testExploit
+        timeout: 10
+        max-score: 35
 
     ## Modify Autograding Reporter
     ## If new problems are added, remember to add new grading actions below
@@ -65,5 +57,6 @@ jobs:
       env:
         PROBLEM-1_RESULTS: "${{steps.problem-1.outputs.result}}"
         PROBLEM-2_RESULTS: "${{steps.problem-2.outputs.result}}"
+        PROBLEM-3_RESULTS: "${{steps.problem-3.outputs.result}}"
       with:
-        runners: problem-1, problem-2
+        runners: problem-1, problem-2, problem-3
